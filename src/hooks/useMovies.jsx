@@ -3,14 +3,21 @@ import { seachMovies } from "../services/movies";
 
 export function useMovies({ search, sort }) {
   const [movies, setMovies] = useState([]);
-
   const previusSearch = useRef(search);
 
-  const getMovies = useCallback( async () => {
+
+  const getMovies = useCallback( async ({search}) => {
     if (search == previusSearch.current) return;
-    const newMovies = await seachMovies({ search });
-    setMovies(newMovies);
-    previusSearch.current = search;
+
+    
+    try{
+      const newMovies = await seachMovies({ search });
+      setMovies(newMovies);
+      previusSearch.current = search;
+
+    }catch{
+      console.log("error")
+    }
   }, []);
 
 
